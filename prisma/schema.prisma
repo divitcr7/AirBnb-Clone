@@ -1,0 +1,219 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Auth
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String         @id @default(cuid())
+  name          String?
+  email         String?        @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  UserWishList  UserWishList[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// User data
+model UserWishList {
+  id        String    @id @unique @default(uuid())
+  createdAt DateTime  @default(now())
+  name      String
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  listing   Listing[]
+}
+
+// App data
+
+enum CategoryEnum {
+  Mountains
+  Landmarks
+  Camping
+  Yacht
+  Tropical
+  Farms
+  Desert
+  Windmills
+  Forests
+  Beaches
+  Countryside
+  Sailing
+  Arctic
+  Rainforests
+  Lakes
+  Golfing
+  Cabins
+  Play
+  Coasts
+  Wooden
+  Vineyards
+  Lighthouses
+  Skiing
+  Luxe
+  Containers
+  Apartments
+  Downtown
+  Minimal
+  Islands
+}
+
+model Category {
+  id        String       @id @default(uuid())
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  title     CategoryEnum @unique
+  listings  Listing[]
+}
+
+model Listing {
+  id           String              @id @unique @default(uuid())
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  location     String
+  subtitle     String
+  startDate    String
+  endDate      String
+  price        Int
+  images       ListingImage[]
+  categories   Category[]
+  name         String
+  placeType    String
+  hostId       String
+  host         FakeUser            @relation(fields: [hostId], references: [id])
+  homeDetails  ListingHomeDetail[]
+  amenities    ListingAmenity[]
+  reviews      ListingReview[]
+  // geoId         String
+  // geo           Geo            @relation(fields: [geoId], references: [id])
+  UserWishList UserWishList[]
+}
+
+model ListingReview {
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  listingId  String
+  listing    Listing  @relation(fields: [listingId], references: [id])
+  reviewerId String
+  reviewer   FakeUser @relation(fields: [reviewerId], references: [id])
+  rating     Int
+  review     String
+}
+
+enum HomeDetailEnum {
+  guest
+  bedroom
+  bed
+  bathroom
+}
+
+model FakeUser {
+  id            String          @id @default(uuid())
+  createdAt     DateTime        @default(now())
+  name          String
+  avatarUrl     String
+  ListingReview ListingReview[]
+  isHost        Boolean
+  isSuperhost   Boolean
+  Listing       Listing[]
+}
+
+model ListingHomeDetail {
+  id        String         @id @default(uuid())
+  listingId String
+  listing   Listing        @relation(fields: [listingId], references: [id])
+  quantity  Int
+  type      HomeDetailEnum
+}
+
+model ListingImage {
+  id        String  @id @default(uuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id])
+  source    String
+}
+
+model ListingAmenity {
+  id           String              @id @default(uuid())
+  title        String              @unique
+  icon         String
+  description  String
+  categoryCode AmenityCategoryEnum
+  category     AmenityCategory     @relation(fields: [categoryCode], references: [code])
+  listings     Listing[]
+}
+
+model AmenityCategory {
+  code       AmenityCategoryEnum @unique
+  title      String              @unique
+  amentities ListingAmenity[]
+}
+
+model Geo {
+  id        String @id @default(uuid())
+  country   String
+  state     String
+  city      String
+  latitude  Float
+  longitude Float
+  // listings  Listing[]
+}
+
+enum AmenityCategoryEnum {
+  bathroom
+  bedroom
+  family
+  heating
+  safety
+  internet
+  dining
+  outdoor
+  parking
+  services
+  views
+  entertainment
+}
