@@ -2,8 +2,8 @@ Here is a draft GitHub README.md for an Airbnb clone app using Next.js and Tailw
 
 # Airbnb Clone
 
-Check Out the Demo here :
-https://github.com/divitcr7/AirBnb-Clone/assets/67183559/1552e9c3-fd07-4e9c-9f45-ddc0dca68d1a
+Check Out the Demo here : Gif![Recording](https://github.com/divitcr7/AirBnb-Clone/assets/67183559/2abcb005-45a1-459c-8ab5-dadb8b28587f)
+
 
 
 This is an Airbnb clone app built with Next.js and Tailwind CSS.
