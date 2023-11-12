@@ -49,7 +49,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the app in your brow
 - [Next.js](https://nextjs.org/) - React Framework
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-First CSS Framework  
 - [MongoDB](https://www.mongodb.com/) - Database
-- [Vercel](https://vercel.com/) - Deployment
+- [Netlify](https://www.netlify.com/?qgad=669861900644&qgterm=netlify&utm_source=google&utm_term=netlify&utm_campaign=GS_Connect:+Netlify+Brand&utm_medium=paid_search&hsa_acc=3888979506&hsa_cam=20355763121&hsa_grp=154990107550&hsa_ad=669861900644&hsa_src=g&hsa_tgt=kwd-309804753741&hsa_kw=netlify&hsa_mt=b&hsa_net=adwords&hsa_ver=3&gad_source=1&gclid=Cj0KCQiAjMKqBhCgARIsAPDgWlxnayQaTWz3Q1CLhrFByFj_G2mIpFn9DspkTDM9ERCSO8f6daMMDhoaAjZkEALw_wcB) - Deployment
 
 ## Documentation
 
